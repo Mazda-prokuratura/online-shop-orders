@@ -1,0 +1,28 @@
+<!-- templates/products.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Товары</h2>
+<a href="{{ url_for('new_product') }}" class="btn">+ Добавить товар</a>
+
+<div class="product-grid">
+  {% for p in products %}
+  <div class="product-card">
+    <h3>{{ p.name }}</h3>
+    <p>{{ p.description or 'Без описания' }}</p>
+    <p class="price">{{ p.price }} ₽</p>
+    <p class="stock">Остаток: {{ p.stock_quantity }}</p>
+    <div class="actions">
+      <!-- В будущем можно добавить редактирование -->
+      <form method="POST" action="{{ url_for('delete_product', product_id=p.id) }}" style="margin:0;">
+        <button type="submit" class="btn delete-btn" onclick="return confirm('Удалить товар?')">Удалить</button>
+      </form>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if not products %}
+  <p>Нет товаров.</p>
+{% endif %}
+
+{% endblock %}

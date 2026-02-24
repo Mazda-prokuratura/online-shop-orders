@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Заказ №{{ details.order.id }}</h2>
+
+<div style="background: #f8f9fa; padding: 16px; border-radius: 10px; margin-bottom: 20px;">
+  <p><strong>Клиент:</strong> {{ details.order.client_name }} ({{ details.order.email }})</p>
+  <p><strong>Дата создания:</strong> {{ details.order.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+  <p><strong>Статус:</strong> {{ details.order.status }}</p>
+</div>
+
+<h3>Товары в заказе:</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Название товара</th>
+      <th>Количество</th>
+      <th>Цена за ед.</th>
+      <th>Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in details.order_items %}
+    <tr>
+      <td>{{ item.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ "%.2f"|format(item.price) }} ₽</td>
+      <td>{{ "%.2f"|format(item.price * item.quantity) }} ₽</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Итоговая сумма -->
+{% set total = [0] %}
+{% for item in details.order_items %}
+    {% set _ = total.append(total.pop() + (item.price * item.quantity)) %}
+{% endfor %}
+
+<p style="margin-top: 15px; font-size: 1.1em; font-weight: bold;">
+  Итого: {{ "%.2f"|format(total[0]) }} ₽
+</p>
+
+<a href="{{ url_for('orders') }}" class="btn">← Назад к заказам</a>
+{% endblock %}

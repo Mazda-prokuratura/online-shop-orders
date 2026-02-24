@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Клиенты</h2>
+<a href="{{ url_for('new_client') }}" class="btn">+ Добавить клиента</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ФИО</th>
+      <th>Email</th>
+      <th>Телефон</th>
+      <th>Адрес</th>
+      <th class="actions">Действия</th> <!-- ← добавлен класс -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in clients %}
+    <tr>
+      <td>{{ c.id }}</td>
+      <td>{{ c.full_name }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.phone or '' }}</td>
+      <td>{{ c.address or '' }}</td>
+      <td class="actions">
+        <form method="POST" action="{{ url_for('delete_client', client_id=c.id) }}" style="margin: 0;">
+          <button type="submit" class="delete-btn"
+                  onclick="return confirm('Удалить клиента? Это удалит все его заказы!')">
+            Удалить
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if not clients %}
+  <p>Нет клиентов.</p>
+{% endif %}
+{% endblock %}

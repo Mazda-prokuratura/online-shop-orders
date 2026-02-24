@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Заказы</h2>
+<a href="{{ url_for('new_order') }}" class="btn">+ Создать заказ</a>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Клиент</th>
+      <th>Статус</th>
+      <th>Дата</th>
+      <th class="actions">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in orders %}
+    <tr>
+      <td><a href="{{ url_for('view_order', order_id=o.id) }}">№{{ o.id }}</a></td>
+      <td>{{ o.client_name }}</td>
+      <td>{{ o.status }}</td>
+      <td>{{ o.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td class="actions">
+        <div class="order-actions">
+          <form method="POST" action="{{ url_for('update_order_status', order_id=o.id) }}" style="margin-bottom: 8px;">
+            <select name="status" class="order-status-select" required>
+              <option value="created" {% if o.status == 'created' %}selected{% endif %}>Создан</option>
+              <option value="paid" {% if o.status == 'paid' %}selected{% endif %}>Оплачен</option>
+              <option value="shipped" {% if o.status == 'shipped' %}selected{% endif %}>В доставке</option>
+              <option value="completed" {% if o.status == 'completed' %}selected{% endif %}>Завершён</option>
+              <option value="cancelled" {% if o.status == 'cancelled' %}selected{% endif %}>Отменён</option>
+            </select>
+            <button type="submit" class="order-update-btn">Обновить</button>
+          </form>
+
+          <form method="POST" action="{{ url_for('delete_order', order_id=o.id) }}" style="margin:0;">
+            <button type="submit" class="delete-btn"
+                    onclick="return confirm('Удалить заказ №{{ o.id }}? Это удалит все товары в нём!')">
+              Удалить
+            </button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if not orders %}
+  <p>Нет заказов.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,419 @@
+/* static/css/style.css */
+:root {
+    --pastel-blue: #d0e8ff;
+    --pastel-green: #d0f0c0;
+    --pastel-pink: #ffd1dc;
+    --pastel-yellow: #fff5ba;
+    --pastel-purple: #e6d7ff;
+    --text-dark: #333;
+    --border-light: #ccc;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fafafa;
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+nav {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #0066cc;
+    margin: 0 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+nav a:hover {
+    background: var(--pastel-blue);
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1, h2, h3 {
+    margin-bottom: 16px;
+    color: #2c3e50;
+}
+
+.alert {
+    padding: 12px;
+    margin: 16px 0;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.alert.success {
+    background: var(--pastel-green);
+    border-left: 4px solid #2ecc71;
+}
+
+.alert.error {
+    background: var(--pastel-pink);
+    border-left: 4px solid #e74c3c;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 500;
+}
+
+input, textarea, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button, .btn {
+    background: var(--pastel-blue);
+    color: #0066cc;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+button:hover, .btn:hover {
+    background: #b8daff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: var(--pastel-purple);
+    color: #4a2c8c;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* === Карточки товаров === */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-card h3 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.product-card p {
+    margin: 6px 0;
+    color: #555;
+}
+
+.product-card .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.product-card .stock {
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
+
+.product-card .actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.product-card .btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.9em;
+}
+
+/* === Универсальные фиксы для кнопок в таблицах и карточках === */
+
+/* Ячейка "Действия" — строго фиксированная ширина, центровка */
+td.actions,
+th.actions {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    padding: 8px 4px; /* уменьшаем горизонтальный отступ */
+}
+
+/* Кнопка удаления в таблице (клиенты/заказы) */
+.delete-btn {
+    background: var(--pastel-pink);
+    color: #c0392b;
+    border: 1px solid #e74c3c;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: inline-block;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Важно: чтобы не вылезала */
+}
+
+/* Карточка товара — центрируем кнопку удаления */
+.product-card .actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center; /* ← ЦЕНТР! */
+    gap: 8px;
+}
+
+.product-card .delete-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+/* Заказы: отделяем форму статуса и кнопку обновления */
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.order-status-form {
+    width: 100%;
+}
+
+.order-status-form select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+}
+
+.order-update-btn {
+    background: var(--pastel-blue);
+    color: #0066cc;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* --- Фикс для ячеек "Действия" в таблицах --- */
+td.actions,
+th.actions {
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+    padding: 8px 4px;
+}
+
+/* --- Кнопка удаления — строго компактная --- */
+.delete-btn {
+    background: var(--pastel-pink);
+    color: #c0392b;
+    border: 1px solid #e74c3c;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: inline-block;
+    max-width: 100%;
+    box-sizing: border-box;
+    /* Важно: без этого кнопка может растянуться */
+    width: auto;
+}
+
+/* === Заказы: форма статуса + кнопка === */
+.order-status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.order-status-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: white;
+}
+
+.order-update-btn {
+    background: var(--pastel-blue);
+    color: #0066cc;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+.order-update-btn:hover {
+    background: #b8daff;
+}
+
+/* === Стили для управления статусом заказа === */
+.order-status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.order-status-select,
+.order-update-btn {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    border: 1px solid var(--border-light);
+}
+
+.order-status-select {
+    background: white;
+    color: var(--text-dark);
+}
+
+.order-update-btn {
+    background: var(--pastel-blue);
+    color: #0066cc;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.order-update-btn:hover {
+    background: #b8daff;
+}
+
+/* === Строгое ограничение ширины для ячейки "Действие" === */
+td.actions {
+    width: 140px; /* фиксированная ширина — ключевой фикс */
+    white-space: normal;
+    overflow: visible;
+    padding: 8px 4px;
+    vertical-align: middle;
+}
+
+/* === Контейнер внутри ячейки — без переполнения === */
+.order-status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* === Выпадающий список — строго под ширину ячейки === */
+.order-status-select {
+    width: 100%;
+    max-width: 100%;
+    padding: 6px 2px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 0.80rem;
+    background: white;
+    box-sizing: border-box;
+}
+
+/* === Кнопка — не шире ячейки, без margin/padding overflow */
+.order-update-btn {
+    width: 100%;
+    max-width: 100%;
+    padding: 6px 8px;
+    background: var(--pastel-blue);
+    color: #0066cc;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* === Кнопка удаления заказа === */
+.order-actions .delete-btn {
+    background: var(--pastel-pink);
+    color: #c0392b;
+    border: 1px solid #e74c3c;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.order-actions .delete-btn:hover {
+    background: #ffccd5;
+}

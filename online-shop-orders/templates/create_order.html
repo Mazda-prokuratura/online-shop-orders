@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Создать заказ</h2>
+<form method="POST" id="orderForm">
+    <label>Клиент:
+        <select name="client_id" required>
+            {% for c in clients %}
+            <option value="{{ c.id }}">{{ c.full_name }} ({{ c.email }})</option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <h3>Товары:</h3>
+    {% for p in products %}
+    <div style="margin: 8px 0; padding: 8px; border: 1px solid #eee; border-radius: 6px;">
+        <label>
+            <input type="checkbox" 
+                   value="{{ p.id }}"
+                   onchange="toggleQuantity(this)">
+            {{ p.name }} (остаток: {{ p.stock_quantity }}, цена: {{ p.price }} ₽)
+        </label>
+        <input type="number"
+               min="1"
+               max="{{ p.stock_quantity }}"
+               value="1"
+               style="width: 70px; margin-left: 10px; display: none;"
+               id="qty-{{ p.id }}">
+    </div>
+    {% endfor %}
+
+    <button type="submit">Создать заказ</button>
+    <a href="{{ url_for('orders') }}">Отмена</a>
+</form>
+
+<script>
+function toggleQuantity(checkbox) {
+    const qtyInput = document.getElementById('qty-' + checkbox.value);
+    if (checkbox.checked) {
+        qtyInput.style.display = 'inline';
+        // Добавляем name только при отправке — НЕ здесь!
+    } else {
+        qtyInput.style.display = 'none';
+    }
+}
+
+// Перехват отправки формы — формируем данные явно
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('client_id', this.client_id.value);
+
+    // Собираем ТОЛЬКО отмеченные товары
+    this.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+        const pid = cb.value;
+        const qtyInput = document.getElementById('qty-' + pid);
+        const qty = qtyInput.value || '1';
+        formData.append('product_id', pid);
+        formData.append('quantity', qty);
+    });
+
+    // Отправляем форму
+    fetch('', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            // Обработка ошибок (опционально)
+            alert('Ошибка при создании заказа');
+        }
+    });
+});
+</script>
+{% endblock %}
